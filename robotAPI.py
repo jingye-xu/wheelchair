@@ -1,6 +1,5 @@
 import requests
 import time
-import os
 import sys
 
 
@@ -39,27 +38,24 @@ speed_values = {
 }
 
 
-def check_connections(ip: str) -> bool:
-    res = os.system("ping -c 1 " + ip)
-    return True if res == 0 else False
-
-
 class Robot:
     def __init__(self, ip: str = "192.168.0.250", speed: str = "med", retry: int = 3):
         """
         initialization, check access to robot server, set motor speed
         :param ip: server ip
         :param speed: define motor speed: fast, med, slow
-        :param retry: tetry times
+        :param retry: retry times
         """
-
-        if not check_connections(ip):
-            print("Cannot")
-            sys.exit(1)
-        print("Pass")
 
         self.url = f"http://{ip}:8080/"
         self.retry = retry
+
+        try:
+            res = requests.get(self.url)
+        except requests.exceptions.RequestException as e:  # This is the correct syntax
+            print("Connection error! Make sure connect to the right Wi-Fi.")
+            print(e)
+            sys.exit(1)
 
         speeds = {"slow", "med", "fast"}
         if speed not in speeds:
@@ -167,31 +163,36 @@ class Robot:
 
 
 if __name__ == "__main__":
-    instance = Robot("172.16.42.254")
+    instance = Robot()
+
     instance.camera_move("up")
-    time.sleep(1)
+    time.sleep(2)
     instance.camera_stop()
+
     instance.camera_move("down")
-    time.sleep(1)
+    time.sleep(2)
+    instance.camera_stop()
+
     instance.camera_move("left")
-    time.sleep(1)
-    instance.camera_move("right", 1)
+    time.sleep(2)
+    instance.camera_stop()
+
+    instance.camera_move("right", 2)
 
     instance.motor_move("forward")
-    time.sleep(1)
+    time.sleep(2)
     instance.motor_stop()
 
     instance.motor_move("backward")
-    time.sleep(1)
+    time.sleep(2)
     instance.motor_stop()
 
     instance.motor_move("left")
-    time.sleep(1)
+    time.sleep(2)
     instance.motor_stop()
 
     instance.motor_move("right")
-    time.sleep(1)
+    time.sleep(2)
     instance.motor_stop()
 
-    instance.motor_move("forward", 1)
-
+    instance.motor_move("forward", 2)
