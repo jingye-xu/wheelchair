@@ -1,40 +1,42 @@
-# Robot Web RESTful API
 
-## Camera
 
-### Camera up
+## Robot Web RESTful API
+
+### Camera
+
+#### Camera up
 
 URL:  
 http://192.168.0.250:8080/?action=command&command=cam_up_up  
 Method: GET
 
-### Camera down
+#### Camera down
 
 URL:  
 http://192.168.0.250:8080/?action=command&command=cam_down_up  
 Method: GET
 
-### Camera left
+#### Camera left
 
 URL:  
 http://192.168.0.250:8080/?action=command&command=cam_left_up  
 Method: GET
 
-### Camera right
+#### Camera right
 
 URL:  
 http://192.168.0.250:8080/?action=command&command=cam_right_up  
 Method: GET
 
-### Camera stop
+#### Camera stop
 
 URL:  
 http://192.168.0.250:8080/?action=command&command=cam_stop_up  
 Method: GET
 
-## Motor
+### Motor
 
-### Move forward
+#### Move forward
 
 URL:  
 http://192.168.0.250:8080/?action=command&command=move_command&value=655360  
@@ -46,7 +48,7 @@ Some valid values:
 slow   medium    fast  
 ```
 
-### Move backward
+#### Move backward
 
 URL:  
 http://192.168.0.250:8080/?action=command&command=move_command&value=537575426  
@@ -59,7 +61,7 @@ Some valid values:
   slow      medium       fast 
 ```
 
-### Turn left
+#### Turn left
 
 URL:  
 http://192.168.0.250:8080/?action=command&command=move_command&value=65566  
@@ -72,7 +74,7 @@ Some valid values
 slow medium fast 
 ```
 
-### Turn right
+#### Turn right
 
 URL:  
 http://192.168.0.250:8080/?action=command&command=move_command&value=114712  
@@ -85,7 +87,7 @@ Some valid values
 slow   medium     fast 
 ```
 
-### Stop motor
+#### Stop motor
 
 URL:
 http://192.168.0.250:8080/?action=command&command=move_command&value=0  
