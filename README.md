@@ -85,7 +85,7 @@ Some valid values
 slow   medium     fast 
 ```
 
-### Stop moter
+### Stop motor
 
 URL:
 http://192.168.0.250:8080/?action=command&command=move_command&value=0  
