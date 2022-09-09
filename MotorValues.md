@@ -8,14 +8,14 @@ dx can be from -350 to 350: positive means turn left, negative means turn right
 postprocessing:  
   if (dx > 16383) dx = 16383;  
   if (dx < -16383) dx = -16383;  
-  if (dx < 0) dx = -dx + 0x4000;  
+  if (dx < 0) dx = -dx + 16384;  
 		
 
 dy can be from -350 to 350: positive means move forward, negative means move backward  
 postprocessing:  
   if (dy > 16383) dy = 16383;  
   if (dy < -16383) dy = -16383;  
-  if (dy < 0) dy = -dy + 0x4000;  
+  if (dy < 0) dy = -dy + 16384;  
 
 value = (dx + (dy * 32768))
 
