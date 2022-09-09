@@ -36,6 +36,8 @@ Method: GET
 
 ### Motor
 
+the `value` in the command can be determined by [MotorValues.md](MotorValues.md)
+
 #### Move forward
 
 URL:  
