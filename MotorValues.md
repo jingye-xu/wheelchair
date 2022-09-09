@@ -1,6 +1,6 @@
 # Transform between motor control and Get method values
 
-When we control the motor move, we need to send a value to the web. This Document introduces the value calculation
+When we control the motor to move around, we need to send a value to the web. This document introduces the value calculation
 
 ## Equation
 
