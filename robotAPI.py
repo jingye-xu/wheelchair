@@ -38,6 +38,51 @@ speed_values = {
 }
 
 
+def xy2value(x: int, y: int) -> int:
+    """
+    this function is used to transfer deltaX and deltaY into one distinct value for further url get method
+    to control the motor
+    :param x: x is used to control motor to turn left or right, positive is left
+    :param y: y is used to control motor to go forward or backward, positive is forward
+    :return: the value used for send get request
+    """
+    if x > 16383:
+        x = 16383
+    if x < -16383:
+        x = -16383
+    if x < 0:
+        x = -x + 16384
+
+    if y > 16383:
+        y = 16383
+    if y < -16383:
+        y = -16383
+    if y < 0:
+        y = -y + 16384
+
+    value = x + y * 32768
+
+    return value
+
+
+def value2xy(value: int) -> (int, int):
+    """
+    this function is to transfer the get request value into deltaX and deltaY that are represented to control the motor
+    deltaX is used to control motor to turn left or right, positive is left
+    deltaY is used to control motor to go forward or backward, positive is forward
+    :param value: the value used for send get request
+    :return: deltaX and deltaY
+    """
+    x = value % 32768
+    y = value // 32768
+    if x > 16383:
+        x = -(x - 16384)
+    if y > 16383:
+        y = -(y - 16384)
+
+    return x, y
+
+
 class Robot:
     def __init__(self, ip: str = "192.168.0.250", speed: str = "med", retry: int = 3):
         """
@@ -163,36 +208,13 @@ class Robot:
 
 
 if __name__ == "__main__":
-    instance = Robot()
+    values = [65536, 655360, 6553600,
+              536903680, 537575426, 548339722,
+              10, 65566, 98429,
+              81929, 114712, 536985728]
 
-    instance.camera_move("up")
-    time.sleep(2)
-    instance.camera_stop()
-
-    instance.camera_move("down")
-    time.sleep(2)
-    instance.camera_stop()
-
-    instance.camera_move("left")
-    time.sleep(2)
-    instance.camera_stop()
-
-    instance.camera_move("right", 2)
-
-    instance.motor_move("forward")
-    time.sleep(2)
-    instance.motor_stop()
-
-    instance.motor_move("backward")
-    time.sleep(2)
-    instance.motor_stop()
-
-    instance.motor_move("left")
-    time.sleep(2)
-    instance.motor_stop()
-
-    instance.motor_move("right")
-    time.sleep(2)
-    instance.motor_stop()
-
-    instance.motor_move("forward", 2)
+    for i in values:
+        x, y = value2xy(i)
+        print(f"x, y: {x, y}")
+        value = xy2value(x, y)
+        print(f"value: {value}")
