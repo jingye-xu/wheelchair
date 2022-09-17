@@ -206,15 +206,51 @@ class Robot:
             time.sleep(duration)
             self.motor_stop()
 
+    def motor_move_speed(self, direction: str, speed: int = 20, duration: int = 0):
+        """
+        move robot forward, backward, left, and right
+        :param speed: specify the speed of the motor
+        :param direction: robot move directions, must be in {"forward", "backward", "left", "right"}
+        :param duration: 0 for continuously move, not 0 for duration in seconds
+        """
+
+        # valid inputs of direction
+        directions = {"forward": (0, 1),
+                      "backward": (0, -1),
+                      "left": (0.4, 0),
+                      "right": (-0.4, 0)}
+
+        # check input validation
+        if direction not in directions:
+            return
+
+        # decode x and y
+        x, y = directions[direction][0] * speed, directions[direction][1] * speed
+
+        # pass parameters
+        motor_param_move = motor_param
+        # encode value by x and y
+        motor_param_move["value"] = str(xy2value(int(x), int(y)))
+
+        # GET
+        res = requests.get(self.url, params=motor_param_move)
+
+        # retry
+        current_try = 0
+        while not res.ok and current_try < self.retry:
+            print(f"retry to move motor")
+            res = requests.get(self.url, params=motor_param_move)
+            current_try += 1
+
+        # if defined a duration
+        if duration > 0:
+            time.sleep(duration)
+            self.motor_stop()
+
 
 if __name__ == "__main__":
-    values = [65536, 655360, 6553600,
-              536903680, 537575426, 548339722,
-              10, 65566, 98429,
-              81929, 114712, 536985728]
-
-    for i in values:
-        x, y = value2xy(i)
-        print(f"x, y: {x, y}")
-        value = xy2value(x, y)
-        print(f"value: {value}")
+    instance = Robot()
+    instance.motor_move_speed(direction="forward", speed=40, duration=3)
+    instance.motor_move_speed(direction="backward", speed=40, duration=3)
+    instance.motor_move_speed(direction="left", speed=40, duration=3)
+    instance.motor_move_speed(direction="right", speed=40, duration=3)
